@@ -1,6 +1,17 @@
-# Overview
+## Temp Playlist
 
-It is a micro-service able to accept RESTful requests receiving as parameter either city name or lat long coordinates and returns a playlist suggestion according to the current temperature.
+This project is a microservice that return playlists by the localization informed by client.
+To get the localization the Openweathermap.org/ is used and for get the playlist the Spotify api is used.
+
+## Project Technology
+
+* Spring boot
+* Spring Cloud
+* Eureka
+* Hytrix
+* Cache(for Openweathermap and Spotify calls)
+
+##
 
 ## Business rules
 
@@ -9,16 +20,9 @@ It is a micro-service able to accept RESTful requests receiving as parameter eit
 * If it's a bit chilly (between 10 and 14 degrees), suggest rock music tracks
 * Otherwise, if it's freezing outside, suggests classical music tracks
 
-### How to run the application
+### Setup
 
-Execute the following command to deploy the application:
-
-`sh initialize.sh`
-
-It will available at: `http://localhost:8091`
-
-### Swagger UI
-```http://localhost:8091/swagger-ui.html```
-
-### Postman Collection
-Import the file ```/postman/playlist-by-weather.postman_collection.json```
+Unfortily setup by docker stills dosen't ready then the project order to start is:
+1- the temp-playlist-config-server
+2- temp-playlist-eureka-server
+3- temp-playlist-search-temp-playlist
