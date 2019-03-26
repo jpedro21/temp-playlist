@@ -1,0 +1,57 @@
+swagger: "2.0"
+info:
+  description: "Service to return playlists according to the temperature of the informed location"
+  version: "0.0.1"
+  title: "Temp Playlist"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "jorge.pedro.neto8@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /playlist/locale/{locale}:
+    get:
+      description: "Find playlists by locale"
+      operationId: "addPet"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "locale"
+        type: "string"
+        description: "A locale that you want ex: city"
+        required: true
+      responses:
+        200:
+          description: "successful operation"
+  /playlist/lat/{lat}/lon/{lon}:
+    get:
+      tags:
+      - "pet"
+      description: "Finds playlist but longitude e latitude reference"
+      operationId: "findPetsByStatus"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "lat"
+        type: "string"
+        description: "Latitude value"
+        required: true
+      - in: "path"
+        name: "lon"
+        type: "string"
+        description: "Longitude value"
+        required: true
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+definitions:

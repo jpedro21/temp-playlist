@@ -5,6 +5,9 @@ import com.app.tempplaylist.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +21,10 @@ public class TempPlaylistServer {
     @Autowired
     private PlaylistService playlistService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Cacheable("playlist-locale")
     public DataDto tempPlaylist(String locale) {
         final WeatherDto weatherDto = weatherService.getTempByLocale(locale);
         Double temp = weatherDto.getTemperature();
@@ -26,6 +33,7 @@ public class TempPlaylistServer {
         return new DataDto(playlistService.getPlaylistByGenre(genre), genre.name());
     }
 
+    @Cacheable("playlist-lat-lon")
     public DataDto tempPlaylist(String lat, String lon) {
         final WeatherDto weatherDto = weatherService.getTempByLonLat(lat, lon);
         Double temp = weatherDto.getTemperature();
@@ -44,6 +52,13 @@ public class TempPlaylistServer {
             return Genre.ROCK;
         } else {
             return Genre.CLASSIC;
+        }
+    }
+
+    @Scheduled(cron = "0 0/10 * * * ?")
+    public void clearCacheSchedule(){
+        for(String name:cacheManager.getCacheNames()){
+            cacheManager.getCache(name).clear();
         }
     }
 }

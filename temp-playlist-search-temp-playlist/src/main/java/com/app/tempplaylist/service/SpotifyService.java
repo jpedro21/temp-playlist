@@ -5,6 +5,9 @@ import com.app.tempplaylist.dto.SpotifyPlaylistDto;
 import com.app.tempplaylist.dto.TokenDto;
 import com.app.tempplaylist.exception.NoResultException;
 import com.app.tempplaylist.exception.PlaylistException;
+import com.app.tempplaylist.exception.WeatherException;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,10 +30,13 @@ public class SpotifyService implements PlaylistService {
     private RestTemplate restTemplate;
 
     public SpotifyService() {
-        restTemplate = new RestTemplate();
+        this.restTemplate =  new RestTemplate();
     }
 
     @Override
+    @HystrixCommand(
+            ignoreExceptions = {NoResultException.class, WeatherException.class},
+            raiseHystrixExceptions = {HystrixException.RUNTIME_EXCEPTION})
     public Set<PlaylistDto> getPlaylistByGenre(Genre genre) {
         if(genre == null) {
             throw new PlaylistException("The music genre is mandatory");
