@@ -5,10 +5,10 @@ import org.joda.time.LocalDate;
 public class ErrorDto {
 
     private Integer code;
-    private LocalDate date;
+    private String date;
     private String msg;
 
-    public ErrorDto(Integer code, LocalDate date, String msg) {
+    public ErrorDto(Integer code, String date, String msg) {
         this.code = code;
         this.date = date;
         this.msg = msg;
@@ -22,11 +22,11 @@ public class ErrorDto {
         this.code = code;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

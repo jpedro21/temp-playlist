@@ -4,6 +4,8 @@ import com.app.tempplaylist.dto.OpenWeatherMapDto;
 import com.app.tempplaylist.dto.WeatherDto;
 import com.app.tempplaylist.exception.NoResultException;
 import com.app.tempplaylist.exception.WeatherException;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,14 +20,14 @@ public class OpenWeatherService implements WeatherService {
     private RestTemplate restTemplate;
 
     public OpenWeatherService() {
-        restTemplate = new RestTemplate();
+        this.restTemplate = new RestTemplate();
     }
 
+    @Override
+    @HystrixCommand(
+            ignoreExceptions = {NoResultException.class, WeatherException.class},
+            raiseHystrixExceptions = {HystrixException.RUNTIME_EXCEPTION})
     public WeatherDto getTempByLocale(String locale) {
-
-        if(locale == null) {
-            throw new WeatherException("Locale parameter is mandatory");
-        }
 
         UriComponentsBuilder uriBuilder =  this.prepareUri()
                 .queryParam("q", locale);
@@ -35,6 +37,10 @@ public class OpenWeatherService implements WeatherService {
         return mapperResponse(response);
     }
 
+    @Override
+    @HystrixCommand(
+            ignoreExceptions = {NoResultException.class, WeatherException.class},
+            raiseHystrixExceptions = {HystrixException.RUNTIME_EXCEPTION})
     public WeatherDto getTempByLonLat(String lat, String lon) {
 
         if(lon == null || lat == null) {
@@ -66,5 +72,4 @@ public class OpenWeatherService implements WeatherService {
             throw new NoResultException("Weather data not found.");
         }
     }
-
 }

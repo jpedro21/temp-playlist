@@ -1,0 +1,23 @@
+version: '2'
+services:
+    configserver:
+        build:
+            dockerfile: ./temp-playlist-config-server/Dockerfile
+            context: .
+        image: config-server
+        container_name: config-server
+        ports:
+            - "9090:9090"
+
+    tempplaylist:
+        build:
+            dockerfile: ./temp-playlist-search-temp-playlist/Dockerfile
+            context: .
+        image: temp-playlist
+        container_name: temp-playlist
+        ports:
+            - "9093:9093"
+        depends_on:
+            - "configserver"
+        links:
+          - "configserver"
