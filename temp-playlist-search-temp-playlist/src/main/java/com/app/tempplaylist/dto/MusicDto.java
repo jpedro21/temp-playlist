@@ -3,7 +3,7 @@ package com.app.tempplaylist.dto;
 import java.io.Serializable;
 import java.util.Set;
 
-public class PlaylistDto {
+public class MusicDto {
 
     private String name;
 

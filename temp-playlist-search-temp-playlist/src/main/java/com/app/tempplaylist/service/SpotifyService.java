@@ -1,6 +1,6 @@
 package com.app.tempplaylist.service;
 
-import com.app.tempplaylist.dto.PlaylistDto;
+import com.app.tempplaylist.dto.MusicDto;
 import com.app.tempplaylist.dto.SpotifyPlaylistDto;
 import com.app.tempplaylist.dto.TokenDto;
 import com.app.tempplaylist.exception.NoResultException;
@@ -37,7 +37,7 @@ public class SpotifyService implements PlaylistService {
     @HystrixCommand(
             ignoreExceptions = {NoResultException.class, WeatherException.class},
             raiseHystrixExceptions = {HystrixException.RUNTIME_EXCEPTION})
-    public Set<PlaylistDto> getPlaylistByGenre(Genre genre) {
+    public Set<MusicDto> getPlaylistByGenre(Genre genre) {
         if(genre == null) {
             throw new PlaylistException("The music genre is mandatory");
         }
@@ -55,7 +55,7 @@ public class SpotifyService implements PlaylistService {
                 SpotifyPlaylistDto.class);
 
         try {
-            Set<PlaylistDto> items =  response.getBody().getTracks().getItems();
+            Set<MusicDto> items =  response.getBody().getTracks().getItems();
             if (items.size() < 0) {
                 throw new NoResultException("No musics found.");
             }
