@@ -10,6 +10,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class TempPlaylistServer {
 
@@ -25,7 +27,7 @@ public class TempPlaylistServer {
     private CacheManager cacheManager;
 
     @Cacheable("playlist-locale")
-    public DataDto tempPlaylist(String locale) {
+    public DataDto<Set<MusicDto>> tempPlaylist(String locale) {
         final WeatherDto weatherDto = weatherService.getTempByLocale(locale);
         Double temp = weatherDto.getTemperature();
         Genre genre = getPlaylistGenre(temp);
@@ -34,7 +36,7 @@ public class TempPlaylistServer {
     }
 
     @Cacheable("playlist-lat-lon")
-    public DataDto tempPlaylist(String lat, String lon) {
+    public DataDto<Set<MusicDto>> tempPlaylist(Float lat, Float lon) {
         final WeatherDto weatherDto = weatherService.getTempByLonLat(lat, lon);
         Double temp = weatherDto.getTemperature();
         Genre genre = getPlaylistGenre(temp);

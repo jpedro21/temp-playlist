@@ -5,5 +5,5 @@ import com.app.tempplaylist.dto.WeatherDto;
 public interface WeatherService {
 
     public WeatherDto getTempByLocale(String locale);
-    public WeatherDto getTempByLonLat(String lat, String lon);
+    public WeatherDto getTempByLonLat(Float lat, Float lon);
 }

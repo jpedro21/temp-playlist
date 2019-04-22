@@ -41,7 +41,7 @@ public class OpenWeatherService implements WeatherService {
     @HystrixCommand(
             ignoreExceptions = {NoResultException.class, WeatherException.class},
             raiseHystrixExceptions = {HystrixException.RUNTIME_EXCEPTION})
-    public WeatherDto getTempByLonLat(String lat, String lon) {
+    public WeatherDto getTempByLonLat(Float lat, Float lon) {
 
         if(lon == null || lat == null) {
             throw new WeatherException("Longitude e latitude are mandatory.");

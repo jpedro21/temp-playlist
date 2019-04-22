@@ -4,13 +4,13 @@ import java.util.Set;
 
 public class TracksDto {
 
-    private Set<PlaylistDto> items;
+    private Set<MusicDto> items;
 
-    public Set<PlaylistDto> getItems() {
+    public Set<MusicDto> getItems() {
         return items;
     }
 
-    public void setItems(Set<PlaylistDto> items) {
+    public void setItems(Set<MusicDto> items) {
         this.items = items;
     }
 }
